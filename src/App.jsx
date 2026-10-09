@@ -3,6 +3,7 @@ import { DEMO_DATE, demoPatients } from './data/demoPatients'
 import { selectDemoPatient } from './data/demoPatientModel'
 import { initialPatientId, persistPatientId, routeFromHash } from './lib/appPreferences'
 import DiaryPage from './features/diary/DiaryPage'
+import CycleCalendarPage from './features/calendar/CycleCalendarPage'
 import { selectAttacksLast30, selectDaysSinceLastAttack, selectEntriesLoggedByYou, selectMeanPeakSeverity30, selectOngoing, selectEpisodes } from './features/diary/selectors'
 
 const pages = [
@@ -29,7 +30,7 @@ export default function App() {
   return <div className="min-h-screen bg-[#f7f8ff] text-slate-800">
     <aside className="fixed inset-y-0 left-0 z-10 hidden w-68 flex-col border-r border-indigo-100 bg-white px-5 py-7 lg:flex"><Brand /><Navigation activePage={activePage} navigate={navigate} /><SidebarFooter /></aside>
     <header className="sticky top-0 z-10 flex items-center justify-between border-b border-indigo-100 bg-white/90 px-5 py-4 backdrop-blur lg:ml-68 lg:hidden"><Brand compact /><button className="rounded-xl bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700" onClick={() => navigate('dashboard')}>Dashboard</button></header>
-    <main className="pb-24 lg:ml-68 lg:pb-10"><div className="mx-auto max-w-6xl px-5 py-7 sm:px-8 lg:px-10 lg:py-10">{activePage === 'dashboard' ? <Dashboard patient={patient} episodes={episodes} onPatientChange={changePatient} navigate={navigate} /> : activePage === 'diary' ? <DiaryPage key={patient.id} patient={patient} episodes={episodes} onChanged={() => setDiaryRevision((value) => value + 1)} /> : <Placeholder page={pageDetails[activePage] || pageDetails.calendar} />}</div></main>
+    <main className="pb-24 lg:ml-68 lg:pb-10"><div className="mx-auto max-w-6xl px-5 py-7 sm:px-8 lg:px-10 lg:py-10">{activePage === 'dashboard' ? <Dashboard patient={patient} episodes={episodes} onPatientChange={changePatient} navigate={navigate} /> : activePage === 'diary' ? <DiaryPage key={patient.id} patient={patient} episodes={episodes} onChanged={() => setDiaryRevision((value) => value + 1)} /> : activePage === 'calendar' ? <CycleCalendarPage key={patient.id} patient={patient} episodes={episodes} onChanged={() => setDiaryRevision((value) => value + 1)} /> : <Placeholder page={pageDetails[activePage] || pageDetails.calendar} />}</div></main>
     <nav className="fixed inset-x-0 bottom-0 z-20 flex justify-around border-t border-indigo-100 bg-white px-1 py-2 lg:hidden">{pages.map((page) => <button key={page.id} onClick={() => navigate(page.id)} className={`flex min-w-0 flex-1 flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-[9px] font-medium ${activePage === page.id ? 'text-indigo-700' : 'text-slate-500'}`}><span className="text-lg">{page.icon}</span>{page.label.split(' ')[0]}</button>)}</nav>
   </div>
 }

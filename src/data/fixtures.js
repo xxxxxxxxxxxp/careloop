@@ -15,3 +15,5 @@ const freezeEpisode = (episode, patientId) => Object.freeze({
 })
 
 export const fixtureEpisodesFor = (patientId) => Object.freeze((rawFixtures[patientId]?.episodes ?? []).map((episode) => freezeEpisode(episode, patientId)))
+export const fixtureCyclesFor = (patientId) => Object.freeze((rawFixtures[patientId]?.cycles ?? []).map((cycle) => Object.freeze({ ...cycle, patientId, origin: 'fixture' })))
+export const fixturePeriodDaysFor = (patientId) => Object.freeze((rawFixtures[patientId]?.periodDays ?? []).map((day) => Object.freeze({ ...day, patientId, origin: 'fixture' })))
