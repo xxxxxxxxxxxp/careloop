@@ -1,0 +1,98 @@
+{
+  "_comment": "Fictional demo patient 3. Sofia R., 41, perimenopausal, irregular cycles, high acute-medication use. Demo state: MedicationBurden threshold flag fires (triptan use >= 10 days in 30). Exercises test A6/A7 (days not doses) and the HARD RULE that the flag is informational wording, never a diagnosis.",
+  "profile": {
+    "id": "usr_sofia",
+    "createdAt": "2024-12-01T08:00:00+08:00",
+    "timezone": "Asia/Shanghai",
+    "locale": "en-US",
+    "countryCode": "CN",
+    "ageBand": "35-44",
+    "cycleLengthEstimate": 33,
+    "periodLengthEstimate": 4,
+    "cycleRegularity": "somewhat_irregular",
+    "migraineDiagnosisStatus": "diagnosed_by_clinician",
+    "yearsWithMigraine": 18,
+    "typicalAttackHours": 24,
+    "usualSymptoms": ["photophobia", "phonophobia", "nausea", "neck_pain"],
+    "goals": ["reduce_attack_burden", "manage_medication", "prepare_for_appointments"],
+    "consents": { "llmProcessing": true, "analytics": false, "research": false, "updatedAt": "2024-12-01T08:00:00+08:00" },
+    "redFlagsAcknowledgedAt": "2024-12-01T08:02:00+08:00",
+    "emergencyNumber": "120",
+    "onboardingCompletedAt": "2024-12-01T08:08:00+08:00"
+  },
+  "cycles": [
+    { "id": "cyc_sof_1", "startDate": "2025-01-09", "endDate": "2025-02-10", "isComplete": true, "lengthDays": 33, "isAtypical": false, "source": "user" },
+    { "id": "cyc_sof_2", "startDate": "2025-02-11", "endDate": "2025-03-14", "isComplete": true, "lengthDays": 32, "isAtypical": false, "source": "user" },
+    { "id": "cyc_sof_3", "startDate": "2025-03-15", "endDate": null, "isComplete": false, "lengthDays": null, "isAtypical": false, "source": "user" }
+  ],
+  "episodes": [
+    { "id": "ep_sof_1", "startAt": "2025-02-09T06:00:00+08:00", "endAt": "2025-02-10T04:00:00+08:00", "durationMin": 1320, "peakSeverity": 8, "severityTrajectory": "escalating", "painSide": "left", "painQuality": "throbbing", "associatedSymptoms": ["photophobia", "nausea"], "auraPresent": false, "functionalImpact": "missed_work_or_school", "suspectedTriggers": ["hormonal"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": null },
+    { "id": "ep_sof_2", "startAt": "2025-02-12T05:30:00+08:00", "endAt": "2025-02-13T02:00:00+08:00", "durationMin": 1230, "peakSeverity": 9, "severityTrajectory": "escalating", "painSide": "left", "painQuality": "throbbing", "associatedSymptoms": ["photophobia", "phonophobia", "vomiting"], "auraPresent": false, "functionalImpact": "bedbound", "suspectedTriggers": ["hormonal"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": "Could not keep anything down." },
+    { "id": "ep_sof_3", "startAt": "2025-02-22T17:00:00+08:00", "endAt": "2025-02-23T12:00:00+08:00", "durationMin": 1140, "peakSeverity": 7, "severityTrajectory": "steady", "painSide": "right", "painQuality": "pressing", "associatedSymptoms": ["neck_pain"], "auraPresent": false, "functionalImpact": "missed_some", "suspectedTriggers": ["stress"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": null },
+    { "id": "ep_sof_4", "startAt": "2025-03-01T07:00:00+08:00", "endAt": "2025-03-02T05:00:00+08:00", "durationMin": 1320, "peakSeverity": 7, "severityTrajectory": "steady", "painSide": "left", "painQuality": "throbbing", "associatedSymptoms": ["photophobia"], "auraPresent": false, "functionalImpact": "slowed_down", "suspectedTriggers": ["poor_sleep", "weather_change"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": null },
+    { "id": "ep_sof_5", "startAt": "2025-03-05T20:00:00+08:00", "endAt": "2025-03-06T15:00:00+08:00", "durationMin": 1140, "peakSeverity": 6, "severityTrajectory": "peaked_and_settled", "painSide": "both", "painQuality": "pressing", "associatedSymptoms": ["fatigue"], "auraPresent": false, "functionalImpact": "slowed_down", "suspectedTriggers": ["alcohol"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": null },
+    { "id": "ep_sof_6", "startAt": "2025-03-13T06:30:00+08:00", "endAt": "2025-03-14T03:00:00+08:00", "durationMin": 1230, "peakSeverity": 8, "severityTrajectory": "escalating", "painSide": "left", "painQuality": "throbbing", "associatedSymptoms": ["photophobia", "nausea"], "auraPresent": false, "functionalImpact": "missed_work_or_school", "suspectedTriggers": ["hormonal"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": "Day before period." },
+    { "id": "ep_sof_7", "startAt": "2025-03-16T08:00:00+08:00", "endAt": "2025-03-17T06:00:00+08:00", "durationMin": 1320, "peakSeverity": 8, "severityTrajectory": "escalating", "painSide": "left", "painQuality": "throbbing", "associatedSymptoms": ["photophobia", "phonophobia", "nausea"], "auraPresent": false, "functionalImpact": "bedbound", "suspectedTriggers": ["hormonal"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": null },
+    { "id": "ep_sof_8", "startAt": "2025-03-19T14:00:00+08:00", "endAt": null, "durationMin": null, "peakSeverity": 7, "severityTrajectory": null, "painSide": "right", "painQuality": "throbbing", "associatedSymptoms": ["photophobia"], "auraPresent": false, "functionalImpact": "slowed_down", "suspectedTriggers": ["stress", "skipped_meal"], "urgentCareUsed": false, "redFlagScreenResult": "none", "notes": "Still ongoing at the demo date — exercises the open-episode UI state." }
+  ],
+  "regimens": [
+    { "id": "reg_sof_1", "name": "rizatriptan", "genericName": "rizatriptan benzoate", "drugClass": "triptan", "purpose": "acute", "doseText": "10 mg", "frequencyText": "as needed for attacks", "scheduleText": "may repeat once after 2 h", "maxDosesPerDay": 2, "maxDosesPerWeek": null, "startDate": "2024-12-01", "endDate": null, "prescriberText": "Dr Ong", "isActive": true, "reminderTimes": [], "source": "user_form", "confirmedAt": "2024-12-01T08:07:00+08:00" },
+    { "id": "reg_sof_2", "name": "naproxen", "genericName": "naproxen sodium", "drugClass": "nsaid", "purpose": "acute", "doseText": "500 mg", "frequencyText": "as needed", "scheduleText": "with food", "maxDosesPerDay": 2, "maxDosesPerWeek": null, "startDate": "2025-02-01", "endDate": null, "prescriberText": null, "isActive": true, "reminderTimes": [], "source": "user_form", "confirmedAt": "2025-02-01T09:00:00+08:00" },
+    { "id": "reg_sof_3", "name": "amitriptyline", "genericName": "amitriptyline", "drugClass": "antidepressant", "purpose": "preventive", "doseText": "10 mg", "frequencyText": "once nightly", "scheduleText": "1 h before bed", "maxDosesPerDay": 1, "maxDosesPerWeek": 7, "startDate": "2025-01-20", "endDate": null, "prescriberText": "Dr Ong", "isActive": true, "reminderTimes": ["21:00"], "source": "user_form", "confirmedAt": "2025-01-20T10:00:00+08:00" }
+  ],
+  "_intakeNote": "14 distinct calendar days with triptan use in the 30 days ending 2025-03-20. Mar 13 has TWO doses (07:00 and 21:00) and must count as ONE day (test A7). 15 triptan intake events -> 14 days.",
+  "intakeEvents": [
+    { "id": "int_sof_1", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-02-22T17:30:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_3", "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_2", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-02-25T09:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_3", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-02-26T09:15:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 3, "sideEffects": [] },
+    { "id": "int_sof_4", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-02-28T08:45:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_5", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-02T11:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 1, "sideEffects": [] },
+    { "id": "int_sof_6", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-04T07:30:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_7", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-06T08:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_8", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-08T08:30:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 3, "sideEffects": [] },
+    { "id": "int_sof_9", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-10T09:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_10", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-13T07:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_6", "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_11", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-13T21:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_6", "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_12", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-15T08:00:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 1, "sideEffects": [] },
+    { "id": "int_sof_13", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-16T08:30:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_7", "effectiveness2h": 1, "sideEffects": [] },
+    { "id": "int_sof_14", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-18T07:45:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_15", "regimenId": "reg_sof_1", "name": "rizatriptan", "takenAt": "2025-03-19T14:30:00+08:00", "doseText": "10 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_8", "effectiveness2h": null, "sideEffects": [] },
+    { "id": "int_sof_16", "regimenId": "reg_sof_2", "name": "naproxen", "takenAt": "2025-03-05T20:30:00+08:00", "doseText": "500 mg", "indication": "acute_for_episode", "linkedEpisodeId": "ep_sof_5", "effectiveness2h": 2, "sideEffects": [] },
+    { "id": "int_sof_17", "regimenId": "reg_sof_2", "name": "naproxen", "takenAt": "2025-03-12T09:00:00+08:00", "doseText": "500 mg", "indication": "acute_for_episode", "linkedEpisodeId": null, "effectiveness2h": 1, "sideEffects": [] },
+    { "id": "int_sof_18", "regimenId": "reg_sof_3", "name": "amitriptyline", "takenAt": "2025-03-19T21:00:00+08:00", "doseText": "10 mg", "indication": "scheduled_preventive", "linkedEpisodeId": null, "effectiveness2h": null, "sideEffects": ["drowsiness"] },
+    { "id": "int_sof_19", "regimenId": "reg_sof_3", "name": "amitriptyline", "takenAt": "2025-03-20T21:00:00+08:00", "doseText": "10 mg", "indication": "scheduled_preventive", "linkedEpisodeId": null, "effectiveness2h": null, "sideEffects": [] },
+    { "id": "int_sof_20", "regimenId": "reg_sof_3", "name": "amitriptyline", "takenAt": "2025-03-17T21:00:00+08:00", "doseText": "10 mg", "indication": "scheduled_preventive", "linkedEpisodeId": null, "effectiveness2h": null, "sideEffects": [], "isSkipped": true, "skipReason": "forgot" }
+  ],
+  "sleepLogs": [
+    { "sleepDate": "2025-03-14", "bedTime": "2025-03-15T01:00:00+08:00", "wakeTime": "2025-03-15T06:30:00+08:00", "durationMin": 330, "awakenings": 2, "quality": 2 },
+    { "sleepDate": "2025-03-15", "bedTime": "2025-03-16T00:45:00+08:00", "wakeTime": "2025-03-16T06:15:00+08:00", "durationMin": 330, "awakenings": 1, "quality": 2 },
+    { "sleepDate": "2025-03-16", "bedTime": "2025-03-17T01:15:00+08:00", "wakeTime": "2025-03-17T06:45:00+08:00", "durationMin": 330, "awakenings": 2, "quality": 2 },
+    { "sleepDate": "2025-03-17", "bedTime": "2025-03-18T00:30:00+08:00", "wakeTime": "2025-03-18T07:00:00+08:00", "durationMin": 390, "awakenings": 1, "quality": 3 },
+    { "sleepDate": "2025-03-18", "bedTime": "2025-03-19T00:50:00+08:00", "wakeTime": "2025-03-19T06:20:00+08:00", "durationMin": 330, "awakenings": 2, "quality": 2 },
+    { "sleepDate": "2025-03-19", "bedTime": "2025-03-20T01:10:00+08:00", "wakeTime": "2025-03-20T06:10:00+08:00", "durationMin": 300, "awakenings": 3, "quality": 1 },
+    { "sleepDate": "2025-03-20", "bedTime": "2025-03-21T00:40:00+08:00", "wakeTime": "2025-03-21T06:40:00+08:00", "durationMin": 360, "awakenings": 1, "quality": 3 }
+  ],
+  "dailyLogs": [
+    { "date": "2025-03-15", "headachePresent": false, "moodTags": ["irritable", "weepy"], "energyLevel": 4, "breastTenderness": 2, "bloating": 2, "cramps": 1, "cravings": true, "stressLevel": 7, "caffeineUnits": 3, "alcoholUnits": 0, "mealsSkipped": 1, "exerciseMinutes": 0, "hydrationGlasses": 4, "medicationAdherence": "as_planned" },
+    { "date": "2025-03-16", "headachePresent": true, "linkedEpisodeId": "ep_sof_7", "moodTags": ["low"], "energyLevel": 2, "breastTenderness": 2, "bloating": 1, "cramps": 2, "cravings": false, "stressLevel": 8, "caffeineUnits": 1, "alcoholUnits": 0, "mealsSkipped": 2, "exerciseMinutes": 0, "hydrationGlasses": 2, "medicationAdherence": "as_planned" },
+    { "date": "2025-03-17", "headachePresent": false, "moodTags": ["flat"], "energyLevel": 5, "stressLevel": 6, "caffeineUnits": 2, "alcoholUnits": 0, "mealsSkipped": 0, "exerciseMinutes": 15, "hydrationGlasses": 5, "medicationAdherence": "partial" },
+    { "date": "2025-03-18", "headachePresent": false, "moodTags": ["anxious"], "energyLevel": 5, "stressLevel": 8, "caffeineUnits": 3, "alcoholUnits": 0, "mealsSkipped": 1, "exerciseMinutes": 0, "hydrationGlasses": 3, "medicationAdherence": "as_planned" },
+    { "date": "2025-03-19", "headachePresent": true, "linkedEpisodeId": "ep_sof_8", "moodTags": ["irritable"], "energyLevel": 3, "stressLevel": 9, "caffeineUnits": 2, "alcoholUnits": 0, "mealsSkipped": 2, "exerciseMinutes": 0, "hydrationGlasses": 2, "medicationAdherence": "as_planned" },
+    { "date": "2025-03-20", "headachePresent": true, "linkedEpisodeId": "ep_sof_8", "moodTags": ["flat"], "energyLevel": 4, "stressLevel": 7, "caffeineUnits": 1, "alcoholUnits": 0, "mealsSkipped": 0, "exerciseMinutes": 20, "hydrationGlasses": 5, "medicationAdherence": "as_planned" }
+  ],
+  "_expected": {
+    "asOf": "2025-03-20",
+    "dataSufficiency": { "level": 1, "completeCycles": 2, "episodeCount": 8 },
+    "medicationBurden": {
+      "acuteDaysLast30": 14,
+      "acuteDaysByClass": { "triptan": 14, "nsaid": 2 },
+      "thresholdNotes": [
+        "TRIPTAN_DAYS_AT_OR_ABOVE_10_PER_30_DAYS",
+        "wording must be informational: 'guidelines commonly use this threshold - discuss with your clinician'",
+        "must NOT say 'you have medication-overuse headache' or any diagnostic phrase"
+      ]
+    },
+    "openEpisode": "ep_sof_8 (endAt = null) must render as 'still going' in the UI",
+    "knownUnknowns": ["2 of 8 episodes have no linked acute-medication event"]
+  }
+}
