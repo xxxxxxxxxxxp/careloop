@@ -1,0 +1,42 @@
+import { useEffect, useRef, useState } from 'react'
+import { systemDateTimeParts } from '../../lib/demoClock'
+import { formFromEpisode, impacts, makeUserEpisode, symptoms, validateEpisode, withDefaultEndDate } from './episodeSchema'
+
+const blankForm = (episode, happeningNow) => {
+  if (episode) return formFromEpisode(episode)
+  const start = happeningNow ? systemDateTimeParts() : { date: '', time: '' }
+  return { startDate: start.date, startTime: start.time, endDate: '', endTime: '', endState: happeningNow ? 'ongoing' : '', peakSeverity: '', severityUnknown: false, associatedSymptoms: [], functionalImpact: '', notes: '' }
+}
+
+export default function EpisodeForm({ patientId, episode = null, happeningNow = false, onSave, onCancel }) {
+  const [form, setForm] = useState(() => blankForm(episode, happeningNow))
+  const [errors, setErrors] = useState({})
+  const summaryRef = useRef(null)
+  useEffect(() => setForm(blankForm(episode, happeningNow)), [episode?.id, happeningNow])
+  const update = (key, value) => setForm((current) => ({ ...current, [key]: value }))
+  const toggleSymptom = (symptom) => update('associatedSymptoms', form.associatedSymptoms.includes(symptom) ? form.associatedSymptoms.filter((item) => item !== symptom) : [...form.associatedSymptoms, symptom])
+  const submit = (event) => {
+    event.preventDefault()
+    const result = validateEpisode(form)
+    setErrors(result.errors)
+    if (Object.keys(result.errors).length) { summaryRef.current?.focus(); return }
+    onSave(makeUserEpisode(form, patientId, episode))
+  }
+  const realNow = systemDateTimeParts()
+  const maxDate = realNow.date
+  const severityTouched = form.peakSeverity !== '' || form.severityUnknown
+  return <form onSubmit={submit} className="rounded-3xl border border-indigo-100 bg-white p-5 shadow-[0_8px_30px_rgba(59,76,155,0.07)]" noValidate>
+    <div ref={summaryRef} tabIndex="-1" role="alert" className={Object.keys(errors).length ? 'mb-5 rounded-xl bg-rose-50 p-4 text-sm text-rose-700' : 'sr-only'}>{Object.keys(errors).length ? <><p className="font-bold">Please check the highlighted fields</p><ul className="mt-2 list-disc pl-5">{Object.entries(errors).map(([field, message]) => <li key={field}><a href={`#diary-${field}`}>{message}</a></li>)}</ul></> : 'No form errors'}</div>
+    <div className="flex items-center justify-between gap-3"><div><h2 className="text-lg font-bold text-slate-900">{episode ? 'Edit your entry' : 'Log an attack'}</h2><p className="mt-1 text-sm text-slate-500">Historical fixture data remains separate from entries you add.</p></div></div>
+    <div className="mt-5 grid gap-4 sm:grid-cols-2"><Field label="Start date" error={errors.start}><input id="diary-start" type="date" max={maxDate} value={form.startDate} onChange={(e) => setForm((current) => withDefaultEndDate(current, e.target.value))} aria-invalid={Boolean(errors.start)} /></Field><Field label="Start time" error={errors.start}><input type="time" max={form.startDate === maxDate ? realNow.time : undefined} value={form.startTime} onChange={(e) => update('startTime', e.target.value)} /></Field></div>
+    <fieldset id="diary-endState" className="mt-6"><legend className="font-semibold text-slate-800">When did it end?</legend><div className="mt-3 grid gap-2 sm:grid-cols-3">{[['ongoing', 'Still going'], ['ended', 'Ended at a time'], ['unknown', 'Ended, time not recorded']].map(([value, label]) => <label key={value} className={`rounded-xl border p-3 text-sm ${form.endState === value ? 'border-indigo-500 bg-indigo-50' : 'border-slate-200'}`}><input type="radio" name="end-state" className="mr-2" checked={form.endState === value} onChange={() => update('endState', value)} />{label}</label>)}</div>{errors.endState && <Error message={errors.endState} />}</fieldset>
+    {form.endState === 'ended' && <div className="mt-4 grid gap-4 sm:grid-cols-2"><Field label="End date" error={errors.end}><input id="diary-end" type="date" max={maxDate} value={form.endDate} onChange={(e) => update('endDate', e.target.value)} aria-invalid={Boolean(errors.end)} /></Field><Field label="End time" error={errors.end}><input type="time" max={form.endDate === maxDate ? realNow.time : undefined} value={form.endTime} onChange={(e) => update('endTime', e.target.value)} /></Field></div>}
+    <div className="mt-6"><label htmlFor="diary-severity" className="font-semibold text-slate-800">Peak severity <span className="text-rose-600">required</span></label><p className="mt-1 text-sm text-slate-500">Rate the worst point, or explicitly mark it unknown; we won’t guess it for you.</p><div className="mt-3 flex items-center gap-4"><input id="diary-severity" className="w-full accent-indigo-600" type="range" min="0" max="10" disabled={form.severityUnknown} value={form.peakSeverity === '' ? 0 : form.peakSeverity} onChange={(e) => { update('peakSeverity', e.target.value); update('severityUnknown', false) }} aria-valuetext={form.severityUnknown ? 'Unknown' : form.peakSeverity !== '' ? `${form.peakSeverity} out of 10` : 'Not rated'} /><output className="min-w-24 rounded-xl bg-indigo-50 px-3 py-2 text-center text-sm font-bold text-indigo-700">{form.severityUnknown ? 'Unknown' : form.peakSeverity !== '' ? `${form.peakSeverity}/10` : 'Tap to rate'}</output></div><label className="mt-3 inline-flex items-center gap-2 text-sm text-slate-600"><input type="checkbox" checked={form.severityUnknown} onChange={(e) => update('severityUnknown', e.target.checked)} />Severity unknown</label>{errors.peakSeverity && <Error message={errors.peakSeverity} />}</div>
+    <fieldset className="mt-6"><legend className="font-semibold text-slate-800">Associated symptoms <span className="font-normal text-slate-500">(optional)</span></legend><div className="mt-3 flex flex-wrap gap-2">{symptoms.map((symptom) => <label key={symptom} className={`rounded-full border px-3 py-2 text-sm ${form.associatedSymptoms.includes(symptom) ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-slate-200'}`}><input className="sr-only" type="checkbox" checked={form.associatedSymptoms.includes(symptom)} onChange={() => toggleSymptom(symptom)} />{symptom.replaceAll('_', ' ')}</label>)}</div></fieldset>
+    <fieldset className="mt-6"><legend className="font-semibold text-slate-800">Impact on activities <span className="font-normal text-slate-500">(optional)</span></legend><div className="mt-3 flex flex-wrap gap-2">{impacts.map((impact) => <label key={impact} className={`rounded-full border px-3 py-2 text-sm ${form.functionalImpact === impact ? 'border-indigo-500 bg-indigo-50 text-indigo-700' : 'border-slate-200'}`}><input className="sr-only" type="radio" name="impact" checked={form.functionalImpact === impact} onChange={() => update('functionalImpact', impact)} />{impact.replaceAll('_', ' ')}</label>)}</div></fieldset>
+    <div className="mt-6"><label htmlFor="diary-notes" className="font-semibold text-slate-800">Notes <span className="font-normal text-slate-500">(optional)</span></label><textarea id="diary-notes" className="mt-2 min-h-24 w-full rounded-xl border border-slate-200 p-3 text-sm" maxLength="2001" value={form.notes} onChange={(e) => update('notes', e.target.value)} aria-invalid={Boolean(errors.notes)} aria-describedby="diary-notes-help" /><p id="diary-notes-help" className={`mt-1 text-xs ${form.notes.length > 2000 ? 'text-rose-600' : 'text-slate-500'}`}>{form.notes.length}/2000 · Avoid names, phone numbers or addresses.</p>{errors.notes && <Error message={errors.notes} />}</div>
+    <div className="sticky bottom-16 mt-6 flex gap-3 border-t border-slate-100 bg-white/95 pt-4"><button type="submit" disabled={!severityTouched} className="min-h-11 rounded-xl bg-indigo-600 px-5 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:bg-slate-300">Save entry</button><button type="button" onClick={onCancel} className="min-h-11 rounded-xl bg-slate-100 px-5 text-sm font-semibold text-slate-700">Cancel</button>{!severityTouched && <span className="self-center text-xs text-slate-500">Rate the worst point (0–10)</span>}</div>
+  </form>
+}
+function Field({ label, error, children }) { return <label className="block text-sm font-semibold text-slate-800">{label}<span className="mt-2 block [&_input]:w-full [&_input]:rounded-xl [&_input]:border [&_input]:border-slate-200 [&_input]:p-3 [&_input]:font-normal">{children}</span>{error && <Error message={error} />}</label> }
+function Error({ message }) { return <p className="mt-2 text-sm text-rose-600">{message}</p> }
