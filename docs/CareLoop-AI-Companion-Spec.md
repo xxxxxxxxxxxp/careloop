@@ -1,5 +1,10 @@
 # CareLoop — AI Health Companion Workflow Specification
 
+> ## ⚠️ 本文件的"周期聚集分析"部分已被取代
+> **Section: clustering / `expectedRatioByChance` 已作废。** 原设计使用 6 天窗口与固定 28 天分母（`6/28 = 0.214`），这是错的：ICHD-3 的围月经期窗口是 **days −2, −1, 1, 2, 3 共五个日历日（无 day 0）**，且机会基线必须按患者自身周期长度 `5 / L` 逐周期计算。
+> **请以 [`Menstrual-Pattern-Analysis-Spec.md`](./Menstrual-Pattern-Analysis-Spec.md) 为唯一事实来源。** 本文件其余部分（患者旅程、数据模型、Agent 流水线、安全边界、验收清单）仍然有效。
+> 迁移检查：`grep -rn "0\.214\|6/28" src/` 必须为空。
+
 **Version:** 1.0 · **Status:** Implementation-ready · **Target build time:** 8 days
 **Stack:** React 18 + TypeScript + Vite · local-first storage (IndexedDB) · server-side LLM proxy (Tencent Cloud CloudBase cloud function → Hunyuan)
 **Audience:** The coding assistant that implements this app. Everything below is meant to be built literally.

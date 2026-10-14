@@ -103,7 +103,7 @@
   "_expected": {
     "asOf": "2025-03-20",
     "dataSufficiency": { "level": 1, "completeCycles": 2, "episodeCount": 9 },
-    "clustering": { "attacksInWindow": 7, "attacksTotal": 9, "observedRatio": 0.78, "expectedRatioByChance": 0.214, "confidence": "tentative" },
+    "clustering": { "attacksInWindow": 7, "attacksTotal": 9, "observedRatio": 0.78, "fiveDayEvenTimingReference": 0.1786, "confidence": "tentative" },
     "meanSeverityInWindow": 7.6,
     "meanSeverityOutsideWindow": 5.5,
     "acuteDaysLast30": 4,
