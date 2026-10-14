@@ -23,6 +23,29 @@ These counters are intentionally in memory for a single-instance hackathon demo.
 
 Run `npm test` for the deterministic and mocked-ADP tests. To check the production frontend build, run `npm run build`.
 
+## Render production setup
+
+Use one Render **Web Service** for this project. The Node process serves both the compiled Vite frontend and `/api/insights`, so no production Vite proxy or separate static site is required. If the repository contains the app in the `careloop` subdirectory, set Render's root directory to `careloop`.
+
+- Build command: `npm ci && npm test && npm run build`
+- Start command: `npm start`
+
+`npm start` does not require a `.env` file. Set these values in Render's environment settings:
+
+- `NODE_ENV=production`
+- `ADP_APP_KEY` to the published agent key (secret and required)
+- `ADP_DEMO_PASSWORD` to a long random demo password (secret and strongly recommended)
+- `ADP_RATE_LIMIT_PER_HOUR=5`
+- `ADP_MAX_CONCURRENT=2`
+- `ADP_DAILY_REQUEST_LIMIT=50`
+- `ADP_TRUST_PROXY=false`
+
+Render supplies `PORT`; do not hardcode it. In production the server uses `PORT` before `ADP_PORT` and binds to `0.0.0.0`. Locally, `npm run server` still loads `.env`, uses `ADP_PORT` (default `8787`), and binds only to `127.0.0.1`.
+
+Keep `ADP_TRUST_PROXY=false` on Render. The socket address will generally identify Render's proxy, so multiple visitors can share the same in-memory per-IP bucket and one visitor can temporarily throttle others. This is conservative for cost protection. Enabling the current option reads the leftmost `X-Forwarded-For` value, which must not be trusted unless the entire proxy path is independently verified to overwrite caller-supplied values. For a larger or multi-instance deployment, replace this mechanism with an edge or shared-store limiter based on a platform-verified client identity.
+
+The existing daily, concurrency, and per-IP counters remain process-local: they reset on restart and are not shared across instances. Run exactly one instance for this demo and configure an independent Tencent Cloud quota or spending safeguard before making it public.
+
 ## Scope
 
 Every patient and health detail shown in the interface is fictional and labelled as synthetic demonstration data. The AI receives only whitelisted aggregate results from the deterministic analysis; it does not calculate statistics or receive raw diary records. Its output is optional, validated, and falls back to the deterministic summary on failure. It must not be used for diagnosis or medication advice.
