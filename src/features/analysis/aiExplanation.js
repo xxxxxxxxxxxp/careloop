@@ -17,6 +17,10 @@ const errorMessages = {
   INVALID_STREAM: 'Tencent ADP returned an invalid streaming response.',
   INVALID_OUTPUT: 'The generated explanation was rejected by CareLoop safety checks.',
   INVALID_FACTS: 'The deterministic insight summary could not be sent safely.',
+  ACCESS_REQUIRED: 'Enter the demo access password to use the AI explanation.',
+  RATE_LIMITED: 'Too many AI explanation requests. Please try again later.',
+  CONCURRENCY_LIMIT: 'The AI service is busy. Please try again shortly.',
+  DAILY_LIMIT: 'The daily AI explanation limit has been reached. Please use the recorded summary.',
   INTERNAL_ERROR: 'The local AI backend encountered an unexpected error.',
 }
 
@@ -35,12 +39,21 @@ export function explanationFacts(result) {
   }
 }
 
-export async function fetchAiExplanation(facts, { fetchImpl = fetch, signal } = {}) {
+function basicAuthorization(password) {
+  const bytes = new TextEncoder().encode(`careloop:${password}`)
+  let binary = ''
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte) })
+  return `Basic ${btoa(binary)}`
+}
+
+export async function fetchAiExplanation(facts, { fetchImpl = fetch, signal, demoPassword = '' } = {}) {
   let response
   try {
+    const headers = { 'Content-Type': 'application/json' }
+    if (demoPassword) headers.Authorization = basicAuthorization(demoPassword)
     response = await fetchImpl('/api/insights', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers,
       body: JSON.stringify({ facts }),
       signal,
     })

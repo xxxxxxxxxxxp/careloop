@@ -1,5 +1,6 @@
 import { createServer } from 'node:http'
 import { createInsightsHandler } from './insightsHandler.js'
+import { createInsightsSecurity } from './insightsSecurity.js'
 import { loadLocalEnv } from './loadEnv.js'
 
 const envFileLoaded = loadLocalEnv()
@@ -8,7 +9,8 @@ const diagnosticsEnabled = process.env.NODE_ENV !== 'production' && process.env.
 const diagnostic = (category, details = {}) => {
   if (diagnosticsEnabled) console.info(`[careloop-adp] ${category}`, JSON.stringify(details))
 }
-const insightsHandler = createInsightsHandler({ diagnostic })
+const security = createInsightsSecurity()
+const insightsHandler = createInsightsHandler({ diagnostic, security })
 
 const server = createServer(async (request, response) => {
   const url = new URL(request.url, 'http://localhost')
@@ -26,6 +28,11 @@ server.listen(port, '127.0.0.1', () => {
     port,
     envFileLoaded,
     credentialsConfigured: Boolean(process.env.ADP_APP_KEY?.trim()),
+    demoPasswordConfigured: Boolean(security.config.demoPassword),
+    perIpPerHour: security.config.perIpPerHour,
+    maxConcurrent: security.config.maxConcurrent,
+    dailyLimit: security.config.dailyLimit,
+    trustProxy: security.config.trustProxy,
   })
 })
 

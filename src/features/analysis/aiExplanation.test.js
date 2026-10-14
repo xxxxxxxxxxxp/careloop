@@ -42,4 +42,24 @@ test('client classifies a failed HTTP connection separately', async () => {
   await assert.rejects(fetchAiExplanation({}, { fetchImpl: async () => { throw new TypeError('fetch failed') } }), { category: 'NETWORK_ERROR' })
 })
 
+test('client sends an entered demo password only as runtime Basic authentication', async () => {
+  let requestOptions
+  const fetchImpl = async (_url, options) => {
+    requestOptions = options
+    return response({ body: JSON.stringify({ source: 'tencent-adp', explanation: 'A sufficiently long and safe recorded-pattern explanation.' }) })
+  }
+  await fetchAiExplanation({}, { fetchImpl, demoPassword: 'runtime-only-password' })
+  assert.equal(Buffer.from(requestOptions.headers.Authorization.slice(6), 'base64').toString('utf8'), 'careloop:runtime-only-password')
+  assert.doesNotMatch(requestOptions.body, /runtime-only-password/)
+})
+
+test('client preserves fallback-friendly categories for access and 429 controls', async () => {
+  for (const [status, category] of [[401, 'ACCESS_REQUIRED'], [429, 'RATE_LIMITED'], [429, 'CONCURRENCY_LIMIT'], [429, 'DAILY_LIMIT']]) {
+    await assert.rejects(
+      fetchAiExplanation({}, { fetchImpl: async () => response({ status, body: JSON.stringify({ error: category }) }) }),
+      (error) => error.category === category && error.message.length > 20,
+    )
+  }
+})
+
 

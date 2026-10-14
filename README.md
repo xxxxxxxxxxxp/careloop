@@ -13,6 +13,14 @@ Vite proxies `/api` requests to the local server at `127.0.0.1:8787`. To verify 
 
 In development, the backend logs safe connection diagnostics: local route, credential presence as a boolean, upstream HTTP status/content type, SSE event types, and failure category. It never logs the AppKey, prompt, aggregate facts, or complete request bodies. Set `ADP_DIAGNOSTICS=disable` to turn these messages off. If `.env` or `ADP_APP_KEY` is missing, the backend still starts and returns a structured `MISSING_CREDENTIALS` response so the UI can show its safe fallback.
 
+## AI endpoint safeguards
+
+`/api/insights` defaults to 5 requests per IP per hour, 2 simultaneous Tencent ADP calls, and 50 upstream attempts per UTC day. Configure these with `ADP_RATE_LIMIT_PER_HOUR`, `ADP_MAX_CONCURRENT`, and `ADP_DAILY_REQUEST_LIMIT`. An upstream attempt is reserved before Tencent is called, so failures, timeouts, and rejected model output still consume daily capacity. Invalid and failed-authentication requests consume the per-IP allowance.
+
+Set `ADP_DEMO_PASSWORD` to a long random value to require shared demo access. The password uses HTTP Basic authentication and must only be used over HTTPS. It is entered at runtime, held in page memory, and is never included in the frontend bundle. Set `ADP_TRUST_PROXY=true` only when a trusted hosting proxy overwrites `X-Forwarded-For`; otherwise clients could spoof their rate-limit identity.
+
+These counters are intentionally in memory for a single-instance hackathon demo. They reset whenever the process restarts and are not shared between multiple server instances. Before any public deployment, configure an independent Tencent Cloud request quota or spending safeguard; the application counters are not a billing boundary.
+
 Run `npm test` for the deterministic and mocked-ADP tests. To check the production frontend build, run `npm run build`.
 
 ## Scope
