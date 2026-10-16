@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { fixtureCyclesFor } from '../../data/fixtures'
 import { calendarDataFor } from '../calendar/calendarStore'
 import { explanationFacts, fetchAiExplanation } from './aiExplanation'
-import { ADP_DEMONSTRATION_URL, aiAvailabilityForBase } from './deploymentMode'
+import { ADP_DEMONSTRATION_URL, aiAvailabilityForEnvironment, requestExplanationWhenAvailable } from './deploymentMode'
 import { analysePattern, recordedPatternsCopy, WINDOW_DAY_NUMBERS } from './patternAnalysis'
 
 const percent = (value) => value === null ? 'Not available' : `${Math.round(value * 100)}%`
@@ -13,7 +13,7 @@ export default function RecordedPatternsPage({ patient, episodes }) {
   const [loading, setLoading] = useState(false)
   const [accessRequired, setAccessRequired] = useState(false)
   const [demoPassword, setDemoPassword] = useState('')
-  const aiAvailability = aiAvailabilityForBase(import.meta.env.BASE_URL)
+  const aiAvailability = aiAvailabilityForEnvironment({ baseUrl: import.meta.env.BASE_URL, hostname: globalThis.location?.hostname, pathname: globalThis.location?.pathname })
   const result = useMemo(() => {
     const local = calendarDataFor(patient.id)
     const cycles = [...fixtureCyclesFor(patient.id), ...local.periodStarts.map((item) => ({ id: item.id, startDate: item.date }))]
@@ -21,11 +21,13 @@ export default function RecordedPatternsPage({ patient, episodes }) {
   }, [patient.id, episodes])
   const fallback = recordedPatternsCopy(result)
   const generateExplanation = async () => {
+    if (!aiAvailability.liveGeneration) return
     setLoading(true)
     setError('')
     setExplanation('')
     try {
-      setExplanation(await fetchAiExplanation(explanationFacts(result), { demoPassword }))
+      const response = await requestExplanationWhenAvailable(aiAvailability, () => fetchAiExplanation(explanationFacts(result), { demoPassword }))
+      if (response.attempted) setExplanation(response.value)
     } catch (requestError) {
       if (requestError?.category === 'ACCESS_REQUIRED') setAccessRequired(true)
       setError(requestError instanceof Error ? requestError.message : 'The AI explanation is unavailable.')

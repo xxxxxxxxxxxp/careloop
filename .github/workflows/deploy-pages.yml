@@ -32,10 +32,21 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Run automated tests
+        run: npm test
+
       - name: Build static frontend
         run: npm run build
         env:
           CARELOOP_GITHUB_PAGES: "true"
+
+      - name: Verify GitHub Pages artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Eq 'src="/careloop/assets/index-[^"]+\.js"' dist/index.html
+          grep -Eq 'href="/careloop/assets/index-[^"]+\.css"' dist/index.html
+          grep -Rq --include='*.js' 'AI explanations are unavailable in this online demo' dist/assets
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
