@@ -4,3 +4,25 @@
 html { background: #f7f8ff; }
 body { margin: 0; min-width: 320px; }
 button { cursor: pointer; font: inherit; }
+.input { margin-top: 0.25rem; min-height: 2.75rem; width: 100%; border: 1px solid #cbd5e1; border-radius: 0.75rem; background: white; padding: 0.65rem 0.75rem; color: #1e293b; font: inherit; outline: none; }
+.input:focus { border-color: #6366f1; box-shadow: 0 0 0 3px #e0e7ff; }
+.print-only { display: none; }
+
+@media print {
+  @page { margin: 14mm; }
+  html, body { background: white !important; color: #0f172a; font-size: 10pt; }
+  .app-sidebar, .app-mobile-header, .app-mobile-nav, .no-print { display: none !important; }
+  .app-main { margin: 0 !important; padding: 0 !important; }
+  .app-main > div { max-width: none !important; padding: 0 !important; }
+  .print-only { display: grid !important; }
+  .doctor-print-report { color: #0f172a; }
+  .doctor-print-report > header { margin-bottom: 5mm; }
+  .doctor-print-report .print-card { break-inside: auto; border: 1px solid #cbd5e1 !important; border-radius: 8px !important; box-shadow: none !important; margin-top: 5mm !important; padding: 5mm !important; }
+  .doctor-print-report .print-card > div:first-child, .doctor-print-report h2, .doctor-print-report h3 { break-after: avoid; }
+  .doctor-print-report .print-section { break-before: auto; }
+  .doctor-print-report table { break-inside: auto; }
+  .doctor-print-report thead { display: table-header-group; }
+  .doctor-print-report tr { break-inside: avoid; }
+  .doctor-print-report th, .doctor-print-report td { padding: 2.5mm !important; }
+  .doctor-print-report .overflow-x-auto { overflow: visible !important; }
+}
