@@ -52,6 +52,29 @@ flowchart LR
 
 These are separate integrations. The optional WorkBuddy MCP connection supports the development and agent-testing workflow; it is not part of the React application at runtime. The application uses its own Node.js backend to call the published Tencent Cloud ADP API, keeping the AppKey out of the browser.
 
+## Tencent Cloud ADP Integration & Demonstration
+
+CareLoop successfully integrates with the published **CareLoop Insights** agent on Tencent Cloud ADP. In the application workflow, the React frontend sends deterministic aggregate pattern statistics to the protected local Node.js backend. The backend adds the server-held credential, calls the published ADP agent, validates the response, and returns an optional plain-language explanation to the interface. If the backend or ADP is unavailable, the deterministic recorded-pattern summary remains available as a safe fallback.
+
+The published agent has also been exercised through a separate development and testing workflow:
+
+1. **CareLoop â†’ local Node.js backend â†’ Tencent Cloud ADP:** the application submits only the approved aggregate statistics and displays validated agent output.
+2. **Tencent WorkBuddy â†’ Python MCP connector â†’ Tencent Cloud ADP:** WorkBuddy invokes the published agent through the connector's `adp_chat` tool and receives the agent response and execution metadata.
+
+The WorkBuddy MCP workflow is independent of the application's runtime integration. It supports development and agent verification; the React application communicates with ADP through its own Node.js backend.
+
+### GitHub Pages scope
+
+The GitHub Pages build hosts the static React frontend. Patient switching, the cycle calendar, migraine diary, medication tracker, Doctor Preparation report, and deterministic pattern analysis continue to work there using synthetic fixtures and browser-local storage. Live ADP generation currently requires the protected local Node.js backend so that the AppKey is never placed in the static frontend. Therefore, the GitHub Pages site does **not** claim to provide live AI generation.
+
+### Demonstration evidence placeholders
+
+> **Screenshot 1 placeholder â€” Local AI generation:** CareLoop displaying a validated CareLoop Insights explanation returned through the local Node.js backend. Screenshot to be added.
+
+> **Screenshot 2 placeholder â€” Tencent Cloud ADP console:** Published CareLoop Insights agent configuration or execution view. Screenshot to be added.
+
+> **Screenshot 3 placeholder â€” WorkBuddy MCP execution:** WorkBuddy invoking `adp_chat` through the Python MCP connector and receiving the agent response and execution metadata. Screenshot to be added.
+
 ## Run Locally
 
 ### Prerequisites
